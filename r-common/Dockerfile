@@ -2,6 +2,12 @@ FROM ubuntu:14.04
 
 MAINTAINER "Jan Wijffels" jwijffels@bnosac.be
 
+## Set a default user
+RUN useradd docker \
+&& mkdir /home/docker \
+&& chown docker:docker /home/docker \
+&& addgroup docker staff
+
 RUN cd ~
 RUN apt-get update -qq && apt-get install -y --no-install-recommends wget locales 
 
