@@ -43,7 +43,7 @@ RUN mkdir -p /var/log/supervisor
 COPY userconf.sh /usr/bin/userconf.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 8787
-CMD ["/usr/bin/supervisord"] 
+CMD ["/usr/bin/supervisord --configuration /etc/supervisor/conf.d/supervisord.conf"] 
 
 ## CMD ["R"]
 ## Run Rstudio
