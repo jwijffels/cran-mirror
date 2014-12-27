@@ -16,24 +16,24 @@ RUN gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
 
 # Install R
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-  ca-certificates \
-  file \
-  git \
-  libcurl4-openssl-dev \
-  supervisor \
+  libc6 \
   sudo \
+  file \
+  ca-certificates \
+  git \
+  psmisc \
+  libcurl4-openssl-dev \
   software-properties-common \
   libapparmor1 \
-  psmisc \
   libssl0.9.8 \
-  libc6 \
+  supervisor \
   r-base \
   r-base-dev \
   r-recommended \
   && wget http://download2.rstudio.org/rstudio-server-0.98.978-amd64.deb \
   && dpkg -i rstudio-server-0.98.978-amd64.deb \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
-  && rm rstudio-server-*-amd64.deb \
+  && rm rstudio-server-*-amd64.deb 
 
 EXPOSE 8787
 
