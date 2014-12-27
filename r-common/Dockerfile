@@ -35,13 +35,19 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
   && rm rstudio-server-*-amd64.deb 
 
-EXPOSE 8787
-
+## Set CRAN repository
 RUN echo 'options(repos = list(CRAN = "http://cran.at.r-project.org"))' >> /etc/R/Rprofile.site
-CMD ["R"]
 
-# Run Rstudio
-# CMD rstudio-server restart && /bin/bash
+## Run supervisord (https://docs.docker.com/articles/using_supervisord/) which runs the rstudio server on port 8787
+RUN mkdir -p /var/log/supervisor
+COPY userconf.sh /usr/bin/userconf.sh
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+EXPOSE 8787
+CMD ["/usr/bin/supervisord"] 
+
+## CMD ["R"]
+## Run Rstudio
+## CMD rstudio-server restart && /bin/bash
 
 
 
