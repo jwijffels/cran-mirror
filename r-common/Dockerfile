@@ -4,9 +4,10 @@ MAINTAINER "Jan Wijffels" jwijffels@bnosac.be
 
 ## Set a default user
 RUN useradd docker \
-&& mkdir /home/docker \
-&& chown docker:docker /home/docker \
-&& addgroup docker staff
+  && mkdir /home/docker \
+  && chown docker:docker /home/docker \
+  && addgroup docker staff \
+  && echo "docker:docker" | chpasswd
 
 #WORKDIR /home/docker
 RUN apt-get update -qq && apt-get install -y --no-install-recommends wget locales vim-tiny sudo
@@ -43,17 +44,19 @@ RUN apt-get update -qq && apt-get -y dist-upgrade && apt-get install -y --no-ins
 ## Set CRAN repository
 RUN echo 'options(repos = list(CRAN = "http://cran.at.r-project.org"))' >> /etc/R/Rprofile.site
 
-## Run supervisord (https://docs.docker.com/articles/using_supervisord/ and http://supervisord.org/configuration.html) which runs the rstudio server on port 8787
-RUN mkdir -p /var/log/supervisor
 ## Make a user and a user directory for Rstudio, configure git and set sudo rights
 COPY userconf.sh /usr/bin/userconf.sh
 #RUN ["/bin/bash", "userconf.sh"]
+## Run supervisord (https://docs.docker.com/articles/using_supervisord/ and http://supervisord.org/configuration.html) which runs the rstudio server on port 8787
+RUN mkdir -p /var/log/supervisor
 ##COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 8787
 CMD ["/usr/bin/supervisord"] 
 
 ## CMD rstudio-server restart && /bin/bash
+
+chown -R docker:docker /usr/bin/userconf.sh
 
 
 
