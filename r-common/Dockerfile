@@ -8,8 +8,12 @@ RUN useradd docker \
 && chown docker:docker /home/docker \
 && addgroup docker staff
 
-WORKDIR /home/docker
-RUN apt-get update -qq && apt-get install -y --no-install-recommends wget locales vim-tiny
+#WORKDIR /home/docker
+RUN apt-get update -qq && apt-get install -y --no-install-recommends wget locales vim-tiny sudo
+
+## Make a user and a user directory
+COPY userconf.sh /usr/bin/userconf.sh
+RUN ["/bin/bash", "userconf.sh"]
 
 ## Set default locale
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen en_US.utf8 && /usr/sbin/update-locale LANG=en_US.UTF-8
@@ -23,7 +27,6 @@ RUN gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 \
 # Install R
 RUN apt-get update -qq && apt-get -y dist-upgrade && apt-get install -y --no-install-recommends \
   libc6 \
-  sudo \
   file \
   ca-certificates \
   git \
@@ -43,10 +46,6 @@ RUN apt-get update -qq && apt-get -y dist-upgrade && apt-get install -y --no-ins
 
 ## Set CRAN repository
 RUN echo 'options(repos = list(CRAN = "http://cran.at.r-project.org"))' >> /etc/R/Rprofile.site
-
-## Make a user and a user directory
-COPY userconf.sh /usr/bin/userconf.sh
-RUN ["/bin/bash", "userconf.sh"]
 
 ## Run supervisord (https://docs.docker.com/articles/using_supervisord/) which runs the rstudio server on port 8787
 RUN mkdir -p /var/log/supervisor
