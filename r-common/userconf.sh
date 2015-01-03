@@ -2,7 +2,7 @@
 
 USER=${USER:=rstudio}
 PASSWORD=${PASSWORD:=rstudio}
-EMAIL=${EMAIL:=r-common@example.com}
+EMAIL=${EMAIL:=bnosac-r-common@example.com}
 USERID=${USERID:=1000}
 ROOT=${ROOT:=TRUE}
 
