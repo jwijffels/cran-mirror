@@ -11,10 +11,6 @@ RUN useradd docker \
 #WORKDIR /home/docker
 RUN apt-get update -qq && apt-get install -y --no-install-recommends wget locales vim-tiny sudo
 
-## Make a user and a user directory
-COPY userconf.sh /usr/bin/userconf.sh
-RUN ["/bin/bash", "userconf.sh"]
-
 ## Set default locale
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen en_US.utf8 && /usr/sbin/update-locale LANG=en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
@@ -47,14 +43,16 @@ RUN apt-get update -qq && apt-get -y dist-upgrade && apt-get install -y --no-ins
 ## Set CRAN repository
 RUN echo 'options(repos = list(CRAN = "http://cran.at.r-project.org"))' >> /etc/R/Rprofile.site
 
-## Run supervisord (https://docs.docker.com/articles/using_supervisord/) which runs the rstudio server on port 8787
+## Run supervisord (https://docs.docker.com/articles/using_supervisord/ and http://supervisord.org/configuration.html) which runs the rstudio server on port 8787
 RUN mkdir -p /var/log/supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+## Make a user and a user directory for Rstudio, configure git and set sudo rights
+COPY userconf.sh /usr/bin/userconf.sh
+#RUN ["/bin/bash", "userconf.sh"]
+##COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 8787
 CMD ["/usr/bin/supervisord"] 
 
-## CMD ["R"]
-## Run Rstudio
 ## CMD rstudio-server restart && /bin/bash
 
 
