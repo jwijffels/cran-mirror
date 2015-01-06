@@ -49,7 +49,6 @@ RUN echo 'options(repos = list(CRAN = "http://cran.at.r-project.org"))' >> /etc/
 ## Make a user and a user directory for Rstudio, configure git and set sudo rights
 ## Run supervisord (https://docs.docker.com/articles/using_supervisord/ and http://supervisord.org/configuration.html) which runs the rstudio server on port 8787
 RUN mkdir -p /var/log/supervisor
-#RUN chmod +x /usr/bin/userconf.sh
 COPY userconf.sh /usr/bin/userconf.sh
 COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 8787
