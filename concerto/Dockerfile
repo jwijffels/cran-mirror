@@ -33,7 +33,6 @@ RUN R -e "install.packages(c('session', 'RMySQL'), lib = '/usr/lib/R/library')"
 RUN R CMD INSTALL concerto_0.3.3.tar.gz --library=/usr/lib/R/library
 ## Set up the concerto database
 RUN /etc/init.d/mysql start
-RUN mysqladmin -u root password abc123
 RUN mysql --user=root --password=abc123 -e "create database db_master_name"; 
 RUN mysql --user=root --password=abc123 -e "GRANT ALL PRIVILEGES ON *.* TO 'db_master_user'@'%' IDENTIFIED BY 'db_password' WITH GRANT OPTION;"
 
