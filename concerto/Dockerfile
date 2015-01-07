@@ -27,19 +27,19 @@ RUN sed -ri 's/^short_open_tag\s*=\s*Off/short_open_tag = On/g' /etc/php5/cli/ph
 
 ## Get concerto
 RUN wget https://concerto-platform.googlecode.com/files/concerto_platform_v4.0.0.beta8.zip
-RUN mkdir /var/www/concerto
-RUN unzip concerto_platform_v4.0.0.beta8.zip -d /var/www/concerto
+RUN mkdir /var/www/html/concerto
+RUN unzip concerto_platform_v4.0.0.beta8.zip -d /var/www/html/concerto
 RUN wget http://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.13.tar.gz
 ## Install the concerto R package
 RUN R CMD INSTALL rjson_0.2.13.tar.gz --library=/usr/lib/R/library
-RUN R CMD build /var/www/concerto/lib/R/concerto
+RUN R CMD build /var/www/html/concerto/lib/R/concerto
 RUN R -e "install.packages(c('session', 'RMySQL'), lib = '/usr/lib/R/library')"
 RUN R CMD INSTALL concerto_0.3.3.tar.gz --library=/usr/lib/R/library
 
 ## Expose the port
 EXPOSE 3306 80 
 
-CMD ["/usr/bin/mysqld_safe"]
+CMD service apache2 start && /usr/bin/mysqld_safe
 
 
 
