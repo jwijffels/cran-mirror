@@ -10,12 +10,12 @@ MAINTAINER "Jan Wijffels" jwijffels@bnosac.be
 RUN echo 'root:abc123' | chpasswd
 
 RUN export DEBIAN_FRONTEND=noninteractive 
-RUN apt-get install -y mysql-server mysql-client mysql-common
-RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mysql libmysqlclient-dev
-
-## Set root password
+## for mysql server popup
 RUN echo mysql-server mysql-server/root_password password abc123 | debconf-set-selections
 RUN echo mysql-server mysql-server/root_password_again password abc123 | debconf-set-selections
+## install mysql
+RUN apt-get install -y mysql-server mysql-client mysql-common
+RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mysql libmysqlclient-dev
 
 ## Follow the installation steps of Concerto regarding php settings
 RUN sed -ri 's/^short_open_tag\s*=\s*Off/short_open_tag = On/g' /etc/php5/apache2/php.ini
