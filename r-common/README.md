@@ -5,11 +5,6 @@ Docker setup for commonly used R development.
 The OS is Ubuntu 14.04.
 The docker application includes r-base, r-base-dev, r-recommended and sets up RStudio
 
-    docker run -t -p 80:80 -p 8004:8004 opencpu/rstudio
-
-Apache is automatically setup to proxy the `/rstudio/` path to the rstudio server:
-
-
 
 Get the docker file
 ------------------------------
