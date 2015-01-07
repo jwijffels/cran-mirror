@@ -6,9 +6,6 @@ MAINTAINER "Jan Wijffels" jwijffels@bnosac.be
 #RUN apt-get update
 #RUN apt-get install php5
 
-## Set up stupid pwd 
-RUN echo 'root:abc123' | chpasswd
-
 RUN export DEBIAN_FRONTEND=noninteractive 
 ## for mysql server popup
 RUN echo mysql-server mysql-server/root_password password abc123 | debconf-set-selections
