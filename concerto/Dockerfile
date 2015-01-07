@@ -6,13 +6,13 @@ MAINTAINER "Jan Wijffels" jwijffels@bnosac.be
 #RUN apt-get update
 #RUN apt-get install php5
 
+## Set up stupid pwd 
+RUN echo 'root:abc123' | chpasswd
+
 ENV DEBIAN-FRONTEND noninteractive
 RUN export DEBIAN_FRONTEND=noninteractive 
 RUN apt-get install -y mysql-server mysql-client mysql-common
 RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mysql libmysqlclient-dev
-
-## Set up stupid pwd 
-RUN echo 'root:abc123' | chpasswd
 
 ## Follow the installation steps of Concerto regarding php settings
 RUN sed -ri 's/^short_open_tag\s*=\s*Off/short_open_tag = On/g' /etc/php5/apache2/php.ini
