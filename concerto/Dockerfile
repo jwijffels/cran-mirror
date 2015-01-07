@@ -1,4 +1,4 @@
-FROM bnosac:r-common
+FROM bnosac/r-common
 
 MAINTAINER "Jan Wijffels" jwijffels@bnosac.be
 
