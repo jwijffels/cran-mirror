@@ -11,7 +11,9 @@ RUN export DEBIAN_FRONTEND=noninteractive
 RUN echo mysql-server mysql-server/root_password password abc123 | debconf-set-selections
 RUN echo mysql-server mysql-server/root_password_again password abc123 | debconf-set-selections
 ## install mysql
-RUN apt-get install -y mysql-server mysql-client mysql-common
+RUN apt-get install -y mysql-server 
+RUN /etc/init.d/mysql start
+RUN apt-get install -y mysql-client mysql-common
 RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mysql libmysqlclient-dev
 
 ## Follow the installation steps of Concerto regarding php settings
@@ -29,7 +31,6 @@ RUN R CMD build /var/www/concerto/lib/R/concerto
 RUN R -e "install.packages(c('session', 'RMySQL'), lib = '/usr/lib/R/library')"
 RUN R CMD INSTALL concerto_0.3.3.tar.gz --library=/usr/lib/R/library
 ## Set up the concerto database
-RUN /etc/init.d/mysql start
 RUN mysql --user=root --password=abc123 -e "create database db_master_name"; 
 RUN mysql --user=root --password=abc123 -e "GRANT ALL PRIVILEGES ON *.* TO 'db_master_user'@'%' IDENTIFIED BY 'db_password' WITH GRANT OPTION;"
 
