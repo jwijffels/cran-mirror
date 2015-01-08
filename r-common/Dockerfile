@@ -2,6 +2,9 @@ FROM ubuntu:14.04
 
 MAINTAINER "Jan Wijffels" jwijffels@bnosac.be
 
+ENV DEBIAN_FRONTEND noninteractive
+RUN export DEBIAN_FRONTEND=noninteractive 
+
 ## Set a default user
 RUN useradd docker \
   && mkdir /home/docker \
