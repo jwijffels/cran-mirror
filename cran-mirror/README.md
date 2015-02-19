@@ -30,7 +30,7 @@ Point the location of the CRAN mirror in the docker instance (/var/www/html) to 
 
 That's it! It started synching CRAN on /home/bnosac/CRAN and will synch every day at 02h30 UTC.
 
-go to 0.0.0.0 in your browser or find the ip address where it is running and go to that address in your browser
+You can now go to 0.0.0.0 in your browser or find the ip address where it is running and go to that address in your browser to see the R website.
 
     docker ps
     docker inspect --format '{{ .NetworkSettings.IPAddress }}' <your container ID>
