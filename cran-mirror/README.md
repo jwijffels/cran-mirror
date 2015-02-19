@@ -9,6 +9,7 @@ Features
 The OS is Ubuntu 14.04. The docker image uses an Apache webserver and allows SSH.
 
 The docker image synchs with the CRAN mirror cran.r-project.org on 2 timepoints
+
 * At the start of the application
 * Dayly at 02h30 UTC
 
